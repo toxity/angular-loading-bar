@@ -47,6 +47,12 @@
   border-top-right-radius: 1px;
 }
 
+.to-bottom {
+  position: absolute!important;
+  top: auto!important;
+  bottom: 0!important;
+}
+
 /* Fancy blur effect */
 #loading-bar .peg {
   position: absolute;
@@ -105,6 +111,6 @@
   100% { -ms-transform: rotate(360deg); transform: rotate(360deg); }
 }
 @keyframes loading-bar-spinner {
-  0%   { transform: rotate(0deg);   transform: rotate(0deg); }
-  100% { transform: rotate(360deg); transform: rotate(360deg); }
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
