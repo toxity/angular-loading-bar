@@ -182,7 +182,8 @@ angular.module('cfp.loadingBar', [])
         completeTimeout,
         started = false,
         status = 0,
-        triesLimit = 5;
+        triesLimit = 5,
+        elementCreated = false;
 
       var autoIncrement = this.autoIncrement;
       var includeSpinner = this.includeSpinner;
@@ -218,6 +219,8 @@ angular.module('cfp.loadingBar', [])
           var $parent = $document.find($parentSelector).eq(0);
           if ($parent[0]) {
             $animate.enter(element, $parent, angular.element($parent[0].lastChild));
+            elementCreated = true;
+            _set(startSize);
           } else {
             if (tryNum < triesLimit) {
               setTimeout(function () {
@@ -235,7 +238,6 @@ angular.module('cfp.loadingBar', [])
           addElement(spinner);
         }
 
-        _set(startSize);
       }
 
       /**
@@ -302,8 +304,17 @@ angular.module('cfp.loadingBar', [])
       }
 
       function _completeAnimation() {
-        status = 0;
-        started = false;
+        if (elementCreated) {
+          _set(1);
+          $timeout(function () {
+            status = 0;
+            started = false;
+          }, 100);
+        } else {
+          $timeout(function () {
+            _completeAnimation();
+          }, 2000);
+        }
       }
 
       function _complete() {
@@ -338,8 +349,6 @@ angular.module('cfp.loadingBar', [])
         parentSelector   : this.parentSelector,
         startSize        : this.startSize
       };
-
-
     }];     //
   });       // wtf javascript. srsly
 })();       //
